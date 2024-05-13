@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% block content %}
+<head>
+  <link
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="{{ url_for('static', filename='css/emoji.css') }}"
+    rel="stylesheet"
+  />
+  <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    crossorigin="anonymous"
+  ></script>
+  <!-- Include EmojiPicker.js -->
+  <script src="{{ url_for('static', filename='js/config.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/util.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.emojiarea.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/emoji-picker.js') }}"></script>
+</head>
+
+<div class="message-box">
+  <h2>Chat Room: {{ code }}</h2>
+  <div class="messages" id="messages"></div>
+  <div class="emoji-picker-container">
+    <div class="inputs">
+      <input
+        type="text"
+        rows="3"
+        placeholder="Messagee"
+        name="message"
+        id="message"
+        data-emojiable="true"
+        onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }"
+      />
+      <!-- Send button -->
+      <button type="button" name="send" id="send-btn" onClick="sendMessage()">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var socketio = io();
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  }
+
+  const messages = document.getElementById("messages");
+
+  const createMessage = (name, msg) => {
+    const content = `
+    <div class="text">
+        <span>
+        <strong>${name}</strong>: ${msg}
+        </span>
+        <span class="muted">
+            ${new Date().toLocaleString()}
+    </div>
+    `;
+    messages.innerHTML += content;
+  };
+
+  socketio.on("message", (data) => {
+    createMessage(data.name, data.message);
+  });
+
+  const sendMessage = () => {
+    console.log("send");
+    const message = document.getElementById("message");
+    if (message.value == "") return;
+    socketio.emit("message", { data: message.value });
+    message.value = "";
+  };
+
+  $(function () {
+    // Initializes and creates emoji set from sprite sheet
+    window.emojiPicker = new EmojiPicker({
+      emojiable_selector: "[data-emojiable=true]",
+      assetsPath: "/static/emoji-imgs/",
+      popupButtonClasses: "fa fa-smile-o", // far fa-smile if you're using FontAwesome 5
+    });
+    // Finds all elements with `emojiable_selector` and converts them to rich emoji input fields
+    // You may want to delay this step if you have dynamically created input fields that appear later in the loading process
+    // It can be called as many times as necessary; previously converted input fields will not be converted again
+    window.emojiPicker.discover();
+  });
+</script>
+{% for msg in messages %}
+<script type="text/javascript">
+  createMessage("{{ msg.name }}", "{{ msg.message }}");
+</script>
+{% endfor %} {% endblock %}

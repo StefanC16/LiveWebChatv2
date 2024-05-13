@@ -1,0 +1,105 @@
+body {
+    background-image: url('/static/images/OAK3ZZ0.jpg');
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-position: center; /* Centers the image */
+  }
+  
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.join {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.create-btn {
+    width: 100%;
+}
+
+.message-box {
+    border-color: #604e64;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: rgba(210, 211, 157, 0.363);
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    align-items: stretch;
+}
+
+.messages {
+    overflow-y: scroll;  /*putem da scroll la mesaje */
+    flex: 1;
+    width: 100%;
+}
+
+.inputs {
+    padding: 10px;
+    display: flex;
+}
+
+h2 {
+    text-align: center
+}
+
+#message {
+    flex: 1;
+}
+
+.text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.muted {
+    font-size: 10px;
+    color: rgb(255, 0, 0);
+}
+
+.enter-chat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(223, 231, 175, 0.74);
+    margin: auto;
+    width: 50%;
+    max-width: 500px;
+    position: absolute; /* Change position to absolute */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  
+  .input-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Align items in the center horizontally */
+    margin-bottom: 10px; /* Add some space between rows */
+  }
+  
+  .input-row label {
+    margin-right: 10px; /* Add some space between label and input */
+  }
+  
